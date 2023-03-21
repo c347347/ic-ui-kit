@@ -1,0 +1,104 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable,
+  Description,
+} from "@storybook/addon-docs";
+
+import { icPagination } from "../components";
+import readme from "../../../web-components/src/components/ic-pagination/readme.md";
+
+<Meta title="React Components/Pagination" component={icPagination} />
+
+<Description markdown={readme} />
+
+### Simple
+
+<Canvas>
+  <Story name="Simple">
+    <IcPagination pages={15} />
+    <IcPagination pages={15} appearance="dark" />
+    <IcPagination pages={15} appearance="light" />
+  </Story>
+</Canvas>
+
+### Simple - Hidden 'Current Page' & First/Last Buttons
+
+<Canvas>
+  <Story name="Simple - Hidden 'Current Page' & First/Last Buttons">
+    <IcPagination pages={15} hideCurrentPage={true} />
+    <IcPagination pages={15} hideCurrentPage={true} appearance="dark" />
+    <IcPagination pages={15} hideCurrentPage={true} appearance="light" />
+    <IcPagination pages={15} hideFirstPageButton={true} />
+    <IcPagination pages={15} hideLastPageButton={true} />
+  </Story>
+</Canvas>
+
+### Simple - Default Page set
+
+<Canvas>
+  <Story name="Simple - Default Page set">
+    <IcPagination pages={15} defaultPage={3} />
+    <IcPagination pages={15} defaultPage={4} appearance="dark" />
+    <IcPagination pages={15} defaultPage={5} appearance="light" />
+  </Story>
+</Canvas>
+
+### Simple - Loading
+
+<Canvas>
+  <Story name="Simple - Loading">
+    <IcPagination pages={15} defaultPage={3} loading={true} />
+  </Story>
+</Canvas>
+
+### Complex
+
+<Canvas>
+  <Story name="Complex">
+    <IcPagination pages={15} />
+    <IcPagination pages={15} appearance="dark" />
+    <IcPagination pages={15} appearance="light" />
+  </Story>
+</Canvas>
+
+### Complex - Hidden First & Last Buttons
+
+<Canvas>
+  <Story name="Complex - Hidden First & Last Buttons">
+    <IcPagination pages={15} />
+    <IcPagination pages={15} appearance="dark" />
+    <IcPagination pages={15} appearance="light" />
+  </Story>
+</Canvas>
+
+### Complex - Default Page Set
+
+<Canvas>
+  <Story name="Complex - Default Page Set">
+    <IcPagination pages={15} defaultPage={7} />
+  </Story>
+</Canvas>
+
+### Complex - Loading
+
+<Canvas>
+  <Story name="Complex - Loading">
+    <IcPagination pages={15} loading={true} />
+  </Story>
+</Canvas>
+
+### Complex - Adjacent & Boundary Items Set
+
+<Canvas>
+  <Story name="Complex - Adjacent & Boundary Items Set">
+    <IcPagination pages={15} adjacentCount={0} boundaryCount={0} />
+    <IcPagination pages={15} adjacentCount={0} boundaryCount={1} />
+    <IcPagination pages={15} adjacentCount={0} boundaryCount={2} />
+    <IcPagination pages={15} adjacentCount={1} boundaryCount={0} />
+    <IcPagination pages={15} adjacentCount={2} boundaryCount={0} />
+    <IcPagination pages={15} />
+    <IcPagination pages={15} adjacentCount={2} boundaryCount={2} />
+  </Story>
+</Canvas>
