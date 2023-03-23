@@ -15,7 +15,9 @@ import { IcHeroContentAlignments } from "./components/ic-hero/ic-hero.types";
 import { IcAriaLiveModeVariants } from "./components/ic-input-validation/ic-input-validation.types";
 import { IcLoadingSizes, IcLoadingTypes } from "./components/ic-loading-indicator/ic-loading-indicator.types";
 import { IcMenuChangeEventDetail, IcMenuOptionIdEventDetail, IcOptionSelectEventDetail } from "./components/ic-menu/ic-menu.types";
-import { IcAutocompleteTypes as IcAutocompleteTypes1, IcAutocorrectStates as IcAutocorrectStates1, IcBlurEventDetail, IcInformationStatusOrEmpty as IcInformationStatusOrEmpty1, IcValueEventDetail } from "./interface";
+import { IcPaginationTypes } from "./components/ic-pagination/ic-pagination.types";
+import { IcAutocompleteTypes as IcAutocompleteTypes1, IcAutocorrectStates as IcAutocorrectStates1, IcBlurEventDetail, IcInformationStatusOrEmpty as IcInformationStatusOrEmpty1, IcThemeForeground as IcThemeForeground1, IcValueEventDetail } from "./interface";
+import { IcPaginationItemType } from "./components/ic-pagination-item/ic-pagination-item.types";
 import { IcSearchBarBlurEventDetail } from "./components/ic-search-bar/ic-search-bar.types";
 import { IcSkeletonVariants } from "./components/ic-skeleton/ic-skeleton.types";
 import { IcStatusTagAppearance, IcStatusTagStatuses } from "./components/ic-status-tag/ic-status-tag.types";
@@ -810,6 +812,82 @@ export namespace Components {
          */
         "subheading"?: string;
     }
+    interface IcPagination {
+        /**
+          * The number of pages displayed adjacent to the current page.
+         */
+        "adjacentCount": number;
+        /**
+          * The appearance of the pagination, e.g. dark or light. Default appearance if value not set
+         */
+        "appearance": IcThemeForeground1;
+        /**
+          * The number of pages displayed as boundary items to the current page.
+         */
+        "boundaryCount": number;
+        /**
+          * The default page to display.
+         */
+        "defaultPage": number;
+        /**
+          * If `true` the current page in the `simple` appearance will not be displayed.
+         */
+        "hideCurrentPage": boolean;
+        /**
+          * If `true` the `firstPageButton` will not be displayed.
+         */
+        "hideFirstPageButton": boolean;
+        /**
+          * If `true` the `lastPageButton` will not be displayed.
+         */
+        "hideLastPageButton": boolean;
+        /**
+          * If `true` the Pagination component will not allow interaction.
+         */
+        "loading": boolean;
+        /**
+          * The total number of pages.
+         */
+        "pages": number;
+        /**
+          * The type of Pagination to be used.
+         */
+        "type": IcPaginationTypes;
+    }
+    interface IcPaginationItem {
+        /**
+          * The appearance of the pagination, e.g. dark or light. Default appearance if value not set.
+         */
+        "appearance": IcThemeForeground1;
+        /**
+          * If true the aria-label is set to `Page X of Y`, where X is the current page and Y is the page count.
+         */
+        "ariaOverride": boolean;
+        /**
+          * If true the item is disabled.
+         */
+        "disabled": boolean;
+        /**
+          * The label applicable when simple pagination is being used.
+         */
+        "label": string;
+        /**
+          * The current page number.
+         */
+        "page": number | null;
+        /**
+          * The total number of pages.
+         */
+        "pages": number;
+        /**
+          * If true the pagination item is selected.
+         */
+        "selected": boolean;
+        /**
+          * The type of pagination item 'page' or 'ellipsis'.
+         */
+        "type": IcPaginationItemType;
+    }
     interface IcRadioGroup {
         /**
           * If `true`, the disabled state will be set.
@@ -1563,6 +1641,10 @@ export interface IcNavigationMenuCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIcNavigationMenuElement;
 }
+export interface IcPaginationItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLIcPaginationItemElement;
+}
 export interface IcRadioGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLIcRadioGroupElement;
@@ -1788,6 +1870,18 @@ declare global {
         prototype: HTMLIcPageHeaderElement;
         new (): HTMLIcPageHeaderElement;
     };
+    interface HTMLIcPaginationElement extends Components.IcPagination, HTMLStencilElement {
+    }
+    var HTMLIcPaginationElement: {
+        prototype: HTMLIcPaginationElement;
+        new (): HTMLIcPaginationElement;
+    };
+    interface HTMLIcPaginationItemElement extends Components.IcPaginationItem, HTMLStencilElement {
+    }
+    var HTMLIcPaginationItemElement: {
+        prototype: HTMLIcPaginationItemElement;
+        new (): HTMLIcPaginationItemElement;
+    };
     interface HTMLIcRadioGroupElement extends Components.IcRadioGroup, HTMLStencilElement {
     }
     var HTMLIcRadioGroupElement: {
@@ -1951,6 +2045,8 @@ declare global {
         "ic-navigation-item": HTMLIcNavigationItemElement;
         "ic-navigation-menu": HTMLIcNavigationMenuElement;
         "ic-page-header": HTMLIcPageHeaderElement;
+        "ic-pagination": HTMLIcPaginationElement;
+        "ic-pagination-item": HTMLIcPaginationItemElement;
         "ic-radio-group": HTMLIcRadioGroupElement;
         "ic-radio-option": HTMLIcRadioOptionElement;
         "ic-search-bar": HTMLIcSearchBarElement;
@@ -2758,6 +2854,83 @@ declare namespace LocalJSX {
           * The subtitle to render on the page header.
          */
         "subheading"?: string;
+    }
+    interface IcPagination {
+        /**
+          * The number of pages displayed adjacent to the current page.
+         */
+        "adjacentCount"?: number;
+        /**
+          * The appearance of the pagination, e.g. dark or light. Default appearance if value not set
+         */
+        "appearance"?: IcThemeForeground1;
+        /**
+          * The number of pages displayed as boundary items to the current page.
+         */
+        "boundaryCount"?: number;
+        /**
+          * The default page to display.
+         */
+        "defaultPage"?: number;
+        /**
+          * If `true` the current page in the `simple` appearance will not be displayed.
+         */
+        "hideCurrentPage"?: boolean;
+        /**
+          * If `true` the `firstPageButton` will not be displayed.
+         */
+        "hideFirstPageButton"?: boolean;
+        /**
+          * If `true` the `lastPageButton` will not be displayed.
+         */
+        "hideLastPageButton"?: boolean;
+        /**
+          * If `true` the Pagination component will not allow interaction.
+         */
+        "loading"?: boolean;
+        /**
+          * The total number of pages.
+         */
+        "pages": number;
+        /**
+          * The type of Pagination to be used.
+         */
+        "type"?: IcPaginationTypes;
+    }
+    interface IcPaginationItem {
+        /**
+          * The appearance of the pagination, e.g. dark or light. Default appearance if value not set.
+         */
+        "appearance"?: IcThemeForeground1;
+        /**
+          * If true the aria-label is set to `Page X of Y`, where X is the current page and Y is the page count.
+         */
+        "ariaOverride"?: boolean;
+        /**
+          * If true the item is disabled.
+         */
+        "disabled"?: boolean;
+        /**
+          * The label applicable when simple pagination is being used.
+         */
+        "label"?: string;
+        "onPaginationItemClick"?: (event: IcPaginationItemCustomEvent<{ page: number }>) => void;
+        /**
+          * The current page number.
+         */
+        "page"?: number | null;
+        /**
+          * The total number of pages.
+         */
+        "pages"?: number;
+        /**
+          * If true the pagination item is selected.
+         */
+        "selected"?: boolean;
+        /**
+          * The type of pagination item 'page' or 'ellipsis'.
+         */
+        "type"?: IcPaginationItemType;
     }
     interface IcRadioGroup {
         /**
@@ -3599,6 +3772,8 @@ declare namespace LocalJSX {
         "ic-navigation-item": IcNavigationItem;
         "ic-navigation-menu": IcNavigationMenu;
         "ic-page-header": IcPageHeader;
+        "ic-pagination": IcPagination;
+        "ic-pagination-item": IcPaginationItem;
         "ic-radio-group": IcRadioGroup;
         "ic-radio-option": IcRadioOption;
         "ic-search-bar": IcSearchBar;
@@ -3657,6 +3832,8 @@ declare module "@stencil/core" {
             "ic-navigation-item": LocalJSX.IcNavigationItem & JSXBase.HTMLAttributes<HTMLIcNavigationItemElement>;
             "ic-navigation-menu": LocalJSX.IcNavigationMenu & JSXBase.HTMLAttributes<HTMLIcNavigationMenuElement>;
             "ic-page-header": LocalJSX.IcPageHeader & JSXBase.HTMLAttributes<HTMLIcPageHeaderElement>;
+            "ic-pagination": LocalJSX.IcPagination & JSXBase.HTMLAttributes<HTMLIcPaginationElement>;
+            "ic-pagination-item": LocalJSX.IcPaginationItem & JSXBase.HTMLAttributes<HTMLIcPaginationItemElement>;
             "ic-radio-group": LocalJSX.IcRadioGroup & JSXBase.HTMLAttributes<HTMLIcRadioGroupElement>;
             "ic-radio-option": LocalJSX.IcRadioOption & JSXBase.HTMLAttributes<HTMLIcRadioOptionElement>;
             "ic-search-bar": LocalJSX.IcSearchBar & JSXBase.HTMLAttributes<HTMLIcSearchBarElement>;
