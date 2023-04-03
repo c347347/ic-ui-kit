@@ -45,6 +45,7 @@ let inputIds = 0;
     delegatesFocus: true,
   },
 })
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class Select {
   private nativeSelectElement: HTMLSelectElement;
   private customSelectElement: HTMLButtonElement;
@@ -67,6 +68,10 @@ export class Select {
   private initialOptionsEmpty = false;
 
   private characterKeyPressTimer: number;
+
+  private timeoutTimer: number;
+
+  private hasTimedOut: boolean;
 
   /**
    * The label for the select.
@@ -183,6 +188,26 @@ export class Select {
    */
   @Prop() disableFilter?: boolean = false;
 
+  /**
+   * If using external filtering, set a timeout for when loading takes too long.
+   */
+  @Prop() timeout?: number;
+
+  /**
+   * Change the message displayed whilst the options are being loaded externally.
+   */
+  @Prop() loadingLabel?: string = "Loading...";
+
+  /**
+   * Change the message displayed when external loading times out.
+   */
+  @Prop() loadingErrorLabel?: string = "Loading Error";
+
+  /**
+   * Trigger loading state when fetching options asyncronously
+   */
+  @Prop() loading?: boolean = false;
+
   @State() open: boolean = false;
 
   @State() clearButtonFocused: boolean = false;
@@ -205,32 +230,45 @@ export class Select {
 
   @State() pressedCharacters: string = "";
 
+  @Watch("loading")
+  loadingHandler(newValue: boolean): void {
+    newValue && this.triggerLoading();
+  }
+
+  @Watch("filteredOptions")
+  filteredOptionsHandler(newOptions: IcMenuOption[]): void {
+    this.hasTimedOut = newOptions.some((opt) => opt.timedOut);
+  }
+
   @Watch("options")
   watchOptionsHandler(): void {
-    if (this.isExternalFiltering()) {
-      if (this.options.length > 0) {
-        this.setOptionsValuesFromLabels();
-        this.noOptions = null;
-        this.filteredOptions = this.options;
-      } else if (this.isMenuEnabled()) {
-        this.noOptions = [{ label: this.emptyOptionListText, value: "" }];
-        this.filteredOptions = this.noOptions;
+    if (!this.hasTimedOut) {
+      if (this.isExternalFiltering()) {
+        this.loading = false;
+        clearTimeout(this.timeoutTimer);
+        if (this.options.length > 0) {
+          this.setOptionsValuesFromLabels();
+          this.noOptions = null;
+          this.filteredOptions = this.options;
+        } else if (this.isMenuEnabled()) {
+          this.noOptions = [{ label: this.emptyOptionListText, value: "" }];
+          this.filteredOptions = this.noOptions;
 
-        // Will prevent 'No results found' displaying on initial load and setting default value
-        if (!this.initialRender) {
-          this.setMenuChange(true);
+          // Will prevent 'No results found' displaying on initial load and setting default value
+          if (!this.initialRender) {
+            this.setMenuChange(true);
+          }
         }
-      }
-
-      this.updateSearchableSelectResultAriaLive();
-      this.setDefaultValue();
-    } else {
-      this.setOptionsValuesFromLabels();
-      this.filteredOptions = this.options;
-
-      if (this.initialOptionsEmpty) {
+        this.updateSearchableSelectResultAriaLive();
         this.setDefaultValue();
-        this.initialOptionsEmpty = false;
+      } else {
+        this.setOptionsValuesFromLabels();
+        this.filteredOptions = this.options;
+
+        if (this.initialOptionsEmpty) {
+          this.setDefaultValue();
+          this.initialOptionsEmpty = false;
+        }
       }
     }
   }
@@ -278,6 +316,11 @@ export class Select {
    */
   @Event() icInput: EventEmitter<IcValueEventDetail>;
 
+  /**
+   * Emitted when the 'retry loading' button is clicked
+   */
+  @Event() icRetryLoad: EventEmitter<IcValueEventDetail>;
+
   @Element() host!: HTMLIcSelectElement;
 
   /**
@@ -293,6 +336,10 @@ export class Select {
       this.searchableSelectElement.focus();
     }
   }
+
+  private handleRetry = (ev: CustomEvent) => {
+    this.icRetryLoad.emit({ value: ev.detail.value });
+  };
 
   private updateOnChangeDebounce(newValue: number) {
     if (this.currDebounce !== newValue) {
@@ -326,7 +373,7 @@ export class Select {
   };
 
   private setOptionsValuesFromLabels = (): void => {
-    if (this.options.length > 0) {
+    if (this.options.length > 0 && this.options.map) {
       this.options.map((option) => {
         if (!option.value) {
           option.value = option.label;
@@ -610,6 +657,20 @@ export class Select {
       this.noOptions = noOptions;
       this.filteredOptions = this.noOptions;
     }
+  };
+
+  private triggerLoading = () => {
+    this.noOptions = [{ label: this.loadingLabel, value: "", loading: true }];
+    if (this.filteredOptions !== this.noOptions)
+      this.filteredOptions = this.noOptions;
+    this.timeout &&
+      (this.timeoutTimer = window.setTimeout(() => {
+        this.loading = false;
+        this.noOptions = [
+          { label: this.loadingErrorLabel, value: this.value, timedOut: true },
+        ];
+        this.filteredOptions = this.noOptions;
+      }, this.timeout));
   };
 
   private handleSearchableSelectInput = (event: Event): void => {
@@ -1001,6 +1062,7 @@ export class Select {
               onMenuOptionSelect={this.handleCustomSelectChange}
               onMenuKeyPress={this.handleMenuKeyPress}
               onUngroupedOptionsSet={this.setUngroupedOptions}
+              onRetryButtonClicked={this.handleRetry}
               parentEl={this.host}
             ></ic-menu>
           )}
