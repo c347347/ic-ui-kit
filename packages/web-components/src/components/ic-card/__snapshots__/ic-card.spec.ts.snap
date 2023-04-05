@@ -110,8 +110,10 @@ exports[`ic-card should render as expandable 1`] = `
           </ic-typography>
         </slot>
       </div>
-      <div class="interaction-controls">
-        <slot name="interaction-controls"></slot>
+      <div class="interaction-area">
+        <div class="interaction-controls">
+          <slot name="interaction-controls"></slot>
+        </div>
         <ic-button aria-controls="expanded-content-area" aria-label="Toggle expandable area" class="toggle-button toggle-button-closed" disabletooltip="" variant="icon">
           svg
         </ic-button>
@@ -150,8 +152,10 @@ exports[`ic-card should render content in expanded area 1`] = `
           </ic-typography>
         </slot>
       </div>
-      <div class="interaction-controls">
-        <slot name="interaction-controls"></slot>
+      <div class="interaction-area">
+        <div class="interaction-controls">
+          <slot name="interaction-controls"></slot>
+        </div>
         <ic-button aria-controls="expanded-content-area" aria-expanded="" aria-label="Toggle expandable area" class="toggle-button toggle-button-expanded" disabletooltip="" variant="icon">
           svg
         </ic-button>
@@ -404,8 +408,10 @@ exports[`ic-card should render with interaction controls 1`] = `
           </ic-typography>
         </slot>
       </div>
-      <div class="interaction-controls">
-        <slot name="interaction-controls"></slot>
+      <div class="interaction-area">
+        <div class="interaction-controls">
+          <slot name="interaction-controls"></slot>
+        </div>
       </div>
     </div>
   </mock:shadow-root>
@@ -437,8 +443,10 @@ exports[`ic-card should toggle expanded content when expansion toggle is clicked
           </ic-typography>
         </slot>
       </div>
-      <div class="interaction-controls">
-        <slot name="interaction-controls"></slot>
+      <div class="interaction-area">
+        <div class="interaction-controls">
+          <slot name="interaction-controls"></slot>
+        </div>
         <ic-button aria-controls="expanded-content-area" aria-label="Toggle expandable area" class="toggle-button toggle-button-closed" disabletooltip="" variant="icon">
           svg
         </ic-button>
@@ -473,8 +481,10 @@ exports[`ic-card should toggle expanded content when expansion toggle is clicked
           </ic-typography>
         </slot>
       </div>
-      <div class="interaction-controls">
-        <slot name="interaction-controls"></slot>
+      <div class="interaction-area">
+        <div class="interaction-controls">
+          <slot name="interaction-controls"></slot>
+        </div>
         <ic-button aria-controls="expanded-content-area" aria-expanded="" aria-label="Toggle expandable area" class="toggle-button toggle-button-expanded" disabletooltip="" variant="icon">
           svg
         </ic-button>

@@ -274,8 +274,10 @@ export class Card {
           </div>
         )}
         {(isSlotUsed(this.el, "interaction-controls") || expandable) && (
-          <div class="interaction-controls">
-            <slot name="interaction-controls"></slot>
+          <div class="interaction-area">
+            <div class="interaction-controls">
+              <slot name="interaction-controls"></slot>
+            </div>
             {expandable && (
               <ic-button
                 class={{
